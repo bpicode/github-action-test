@@ -18,4 +18,9 @@ jobs:
         fpm_opts: '--debug -n mypackage -t deb -s dir --description "my app! lul"'
     - name: Tree
       run: tree
+    - name: Archive artifacts
+      uses: actions/upload-artifact@v1
+      with:
+       name: mypackage_1.0_amd64.deb
+       path: mypackage_1.0_amd64.deb
   
