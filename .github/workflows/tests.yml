@@ -4,13 +4,11 @@ on: [push]
 
 jobs:
   build:
-    env:
-      BUILDFLAGS: -ldflags="-X github.com/bpicode/fritzctl/config.Version=${GITHUB_REF##*/} -X github.com/bpicode/fritzctl/config.Revision=${{ github.sha }}" -trimpath
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v1
-    - name: Install helpers
-      run: sudo apt-get install tree
+    - name: export
+      run: export BUILDFLAGS=-ldflags="-X github.com/bpicode/fritzctl/config.Version=${GITHUB_REF##*/} -X github.com/bpicode/fritzctl/config.Revision=${GITHUB_SHA}" -trimpath
     - name: test
       run: echo ${BUILDFLAGS}
