@@ -8,7 +8,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: export
-      run: export BUILDFLAGS="-ldflags='-X github.com/bpicode/fritzctl/config.Version=${GITHUB_REF##*/} -X github.com/bpicode/fritzctl/config.Revision=${GITHUB_SHA}' -trimpath"
+    - name: buildflags
+      id: buildflags
+      run: echo ::set-output name=VALUE::"-ldflags='-X github.com/bpicode/fritzctl/config.Version=${GITHUB_REF/refs\/tags\//} -X github.com/bpicode/fritzctl/config.Revision=${GITHUB_SHA}' -trimpath"
     - name: test
+      env:
+        BUILDFLAGS: ${{ steps.buildflags.outputs.VALUE }}
       run: echo ${BUILDFLAGS}
