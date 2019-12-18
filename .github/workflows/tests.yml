@@ -9,6 +9,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: export
-      run: export BUILDFLAGS=-ldflags="-X github.com/bpicode/fritzctl/config.Version=${GITHUB_REF##*/} -X github.com/bpicode/fritzctl/config.Revision=${GITHUB_SHA}" -trimpath
+      run: export BUILDFLAGS="-ldflags='-X github.com/bpicode/fritzctl/config.Version=${GITHUB_REF##*/} -X github.com/bpicode/fritzctl/config.Revision=${GITHUB_SHA}' -trimpath"
     - name: test
       run: echo ${BUILDFLAGS}
