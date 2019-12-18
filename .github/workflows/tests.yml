@@ -4,23 +4,13 @@ on: [push]
 
 jobs:
   build:
-
+    env:
+      BUILDFLAGS: -ldflags="-X github.com/bpicode/fritzctl/config.Version=${GITHUB_REF##*/} -X github.com/bpicode/fritzctl/config.Revision=${{ github.sha }}" -trimpath
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v1
     - name: Install helpers
       run: sudo apt-get install tree
-    - name: Test fpm action
-      uses: bpicode/github-action-fpm@opts
-      with:
-        fpm_args: './build'
-        fpm_opts: '--debug -n mypackage -t deb -s dir --description "my app! lul"'
-    - name: Tree
-      run: tree
-    - name: Archive artifacts
-      uses: actions/upload-artifact@v1
-      with:
-       name: mypackage_1.0_amd64.deb
-       path: mypackage_1.0_amd64.deb
-  
+    - name: test
+      run: echo ${BUILDFLAGS}
