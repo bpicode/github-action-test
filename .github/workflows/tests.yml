@@ -17,7 +17,7 @@ jobs:
       uses: bpicode/github-action-upload-bintray@master
       with:
         file: example_1.0_amd64.deb
-        api_user: ${{ secrets.BINTRAY_API_USER }}
+        api_user: bpicode
         api_key: ${{ secrets.BINTRAY_API_KEY }}
         gpg_passphrase: ${{ secrets.BINTRAY_GPG_PASSPHRASE }}
         repository: test_deb
