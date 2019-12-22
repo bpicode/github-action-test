@@ -24,8 +24,8 @@ jobs:
         package: example
         version: '1.0'
         upload_path: pool/main/m
-        publish: '1'
-        calculate_metadata: 'true'
+        publish: 1
+        calculate_metadata: true
         deb_distribution: wheezy,jessie,stretch,buster,sid
         deb_component: main
         deb_architecture: amd64
