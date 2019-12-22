@@ -8,13 +8,25 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: buildflags
-      id: buildflags
-      run: |
-        export VERSION_FROM_GIT=${GITHUB_REF/refs\/tags\//}
-        export VERSION_FROM_GIT=$(echo "${VERSION_FROM_GIT}" | tr / _)
-        echo ::set-output name=VALUE::"-ldflags='-X github.com/bpicode/fritzctl/config.Version=${VERSION_FROM_GIT} -X github.com/bpicode/fritzctl/config.Revision=${GITHUB_SHA}' -trimpath"
-    - name: test
-      env:
-        BUILDFLAGS: ${{ steps.buildflags.outputs.VALUE }}
-      run: echo ${BUILDFLAGS}
+    - name: fpm
+      uses: bpicode/github-action-fpm@master
+      with:
+        fpm_args: './build'
+        fpm_opts: '--debug -n example -t deb -s dir --description "my app! lul"'
+    - name: upoad bintray
+      uses: bpicode/github-action-upload-bintray@master
+      with:
+        file: example_1.0_amd64.deb
+        api_user: ${{ secrets.BINTRAY_API_USER }}
+        api_key: ${{ secrets.BINTRAY_API_KEY }}
+        gpg_passphrase: ${{ secrets.BINTRAY_GPG_PASSPHRASE }}
+        repository: test_deb
+        package: example
+        version: '1.0'
+        upload_path: pool/main/m
+        publish: '1'
+        calculate_metadata: 'true'
+        deb_distribution: wheezy,jessie,stretch,buster,sid
+        deb_component: main
+        deb_architecture: amd64
+
